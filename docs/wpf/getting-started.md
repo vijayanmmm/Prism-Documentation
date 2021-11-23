@@ -50,7 +50,7 @@ using Prism.Unity;
 
 namespace WpfApp1
 {
-    public partial class App : PrismApplication
+    public partial class App
     {
     }
 }
@@ -94,13 +94,13 @@ protected override void RegisterTypes(IContainerRegistry containerRegistry)
 The second method that has to be implemented is the CreateShell method. This is the method that will create the main window of the application. The Container property of the App class should be used to create the window as it takes care of any dependencies.
 
 ```cs
-public partial class App : PrismApplication
+public partial class App
 {
     // RegisterTypes function is here
 
     protected override Window CreateShell()
     {
-        var w = Container.Resolve<MainWindow>();
+        var w = Container.Resolve<Views.MainWindow>();
         return w;
     }
 }
@@ -110,7 +110,7 @@ At this point, the app can be built and run and should look like the following:
 
 ![First Run of App](images/FirstRun.PNG)
 
-This is now a Prism app. There isn't much here yet, but there are lots of things that Prism can help out with, such as breaking up the app into manageable chunks, navigation and implementing the MVVM patterns.
+This is now a Prism app. There isn't much here yet, but there are lots of things that Prism can help out with, such as breaking up the app into manageable chunks, navigation and implementing the MVVM patterns. Note: Image shows PrismApplication inherited, it should be removed in recent versions.
 
 ## View Models
 
@@ -119,6 +119,15 @@ WPF is well setup to use an MVVM pattern and Prism helps a lot with this. It has
 First there needs to be some controls added to the view. Go to ```MainWindow.xaml``` and add the following ```<Grid>``` markup as the content for the ```<MainWindow>```.
 
 ```xml
+<Window
+    x:Class="WpfApp1.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Title="MainWindow" Height="650" Width="1200">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -135,6 +144,7 @@ First there needs to be some controls added to the view. Go to ```MainWindow.xam
             Content="LOAD"
         />
     </Grid>
+</Window>
 ```
 
 The above will add a new listview that will display a list of customer names and a button to load the list.
